@@ -93,7 +93,7 @@ const Home = () => {
 
       {/* Right Sidebar */}
       <aside className="sidebar right-sidebar">
-        <button onClick={() => navigate("/login")} className="logout-btn">
+        <button onClick={() => navigate("/")} className="logout-btn">
           Logout
         </button>
       </aside>

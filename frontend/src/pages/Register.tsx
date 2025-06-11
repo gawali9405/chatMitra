@@ -15,22 +15,9 @@ const Register = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-
-    // Optional: Check if user already exists
-    const existingUser = JSON.parse(localStorage.getItem("user") || "null");
-    if (existingUser && existingUser.email === email) {
-      setError("This email is already registered.");
-      return;
-    }
-
-    // Save user to localStorage
-    const user = { name, email, password, mobile };
-    localStorage.setItem("user", JSON.stringify(user));
-
-    console.log("Registered:", user);
-
+    alert("Registeration Successful");
     // Navigate and reset
-    navigate("/login");
+    navigate("/");
     setName("");
     setEmail("");
     setPassword("");
@@ -102,7 +89,7 @@ const Register = () => {
       </form>
 
       <div className="login-link">
-        Already have an account? <NavLink to="/login">Login</NavLink>
+        Already have an account? <NavLink to="/">Login</NavLink>
       </div>
     </div>
   );

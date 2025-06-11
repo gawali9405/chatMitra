@@ -23,37 +23,8 @@ const Login = () => {
     setEmailError("");
     setPasswordError("");
     setLoginError("");
-
-    let isValid = true;
-
-    if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email address.");
-      isValid = false;
-    }
-
-    if (!password) {
-      setPasswordError("Password is required.");
-      isValid = false;
-    }
-
-    if (!isValid) return;
-
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser) {
-      const { email: storedEmail, password: storedPassword } =
-        JSON.parse(storedUser);
-
-      if (email === storedEmail && password === storedPassword) {
-        console.log("✅ Login successful");
-        localStorage.setItem("isLoggedIn", "true"); // Optional: mark login status
-        navigate("/"); // Redirect to homepage or dashboard
-      } else {
-        setLoginError("Invalid email or password.");
-      }
-    } else {
-      setLoginError("No registered user found. Please register first.");
-    }
+    navigate("/post")
+    alert("Login successfuly")
   };
 
   return (
