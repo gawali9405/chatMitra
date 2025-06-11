@@ -1,8 +1,8 @@
 import { useState } from "react";
-import "./Home.css";
+import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
 
-const Home = () => {
+const Dashboard = () => {
   const [createPost, setCreatePost] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -11,24 +11,6 @@ const Home = () => {
       title: "First Post",
       content:
         "This is the content of the first post. Welcome to the platform!",
-    },
-    {
-      title: "React Tips",
-      content:
-        "Use useEffect wisely and break your components into smaller parts.",
-    },
-    {
-      title: "Frontend vs Backend",
-      content:
-        "Frontend handles UI, backend deals with logic and data storage.",
-    },
-    {
-      title: "JavaScript Tricks",
-      content: "Use optional chaining and nullish coalescing for cleaner code.",
-    },
-    {
-      title: "Learning CSS",
-      content: "Flexbox and Grid are powerful tools for layout design.",
     },
   ]);
 
@@ -76,14 +58,23 @@ const Home = () => {
               rows={5}
               required
             ></textarea>
-            <button type="submit">Submit Post</button>
+            <div>
+              <button
+                type="button"
+                onClick={() => setCreatePost(false)}
+                className="cancel-btn"
+              >
+                Cancel
+              </button>
+              <button type="submit">Submit Post</button>
+            </div>
           </form>
         )}
 
         <div className="posts">
           {[...posts].reverse().map((post, index) => (
             <article className="post" key={index}>
-              <h1>gawali150</h1>
+              <h5>@gawali150</h5>
               <h3>{post.title}</h3>
               <p>{post.content}</p>
             </article>
@@ -101,4 +92,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Dashboard;
