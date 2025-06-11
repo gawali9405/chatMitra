@@ -1,16 +1,31 @@
 import { useState } from "react";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
+import {
+  FaThumbsUp,
+  FaCommentAlt,
+  FaRetweet,
+  FaPaperPlane,
+} from "react-icons/fa";
+import { formatDistanceToNow } from "date-fns";
+
+interface Post {
+  title: string;
+  content: string;
+  createdAt: Date;
+}
 
 const Dashboard = () => {
   const [createPost, setCreatePost] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const [posts, setPosts] = useState<{ title: string; content: string }[]>([
+
+  const [posts, setPosts] = useState<Post[]>([
     {
       title: "First Post",
       content:
         "This is the content of the first post. Welcome to the platform!",
+      createdAt: new Date(), 
     },
   ]);
 
@@ -19,7 +34,12 @@ const Dashboard = () => {
   const handlePostSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (title && content) {
-      setPosts([...posts, { title, content }]);
+      const newPost: Post = {
+        title,
+        content,
+        createdAt: new Date(), 
+      };
+      setPosts([...posts, newPost]);
       setTitle("");
       setContent("");
       setCreatePost(false);
@@ -70,13 +90,35 @@ const Dashboard = () => {
             </div>
           </form>
         )}
-
+ 
         <div className="posts">
           {[...posts].reverse().map((post, index) => (
             <article className="post" key={index}>
-              <h5>@gawali150</h5>
+              <div className="post-header">
+                <span className="username">@gawali150</span>
+                <span className="post-date">
+                  {formatDistanceToNow(new Date(post.createdAt), {
+                    addSuffix: true,
+                  })}
+                </span>
+              </div>
               <h3>{post.title}</h3>
               <p>{post.content}</p>
+
+              <div className="post-actions">
+                <button>
+                  <FaThumbsUp /> Like
+                </button>
+                <button>
+                  <FaCommentAlt /> Comment
+                </button>
+                <button>
+                  <FaRetweet /> Repost
+                </button>
+                <button>
+                  <FaPaperPlane /> Send
+                </button>
+              </div>
             </article>
           ))}
         </div>
