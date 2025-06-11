@@ -66,7 +66,7 @@ const Dashboard = () => {
               >
                 Cancel
               </button>
-              <button type="submit">Submit Post</button>
+              <button type="submit">Post</button>
             </div>
           </form>
         )}

@@ -1,0 +1,27 @@
+<svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <defs>
+    <linearGradient id="chatmitraGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#00000033"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="140" height="140" rx="28" fill="url(#chatmitraGradient)"/>
+
+  <!-- Chat bubble with shadow -->
+  <g filter="url(#shadow)">
+    <path d="M35 40c0-6.627 5.373-12 12-12h46c6.627 0 12 5.373 12 12v34c0 6.627-5.373 12-12 12H60l-12 12v-12H47c-6.627 0-12-5.373-12-12V40z" fill="white"/>
+  </g>
+
+  <!-- Friendly face -->
+  <circle cx="60" cy="60" r="4" fill="#6366F1"/>
+  <circle cx="80" cy="60" r="4" fill="#6366F1"/>
+  <path d="M64 74c4 3 12 3 16 0" stroke="#6366F1" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Text label -->
+  <text x="70" y="128" font-size="14" font-family="Segoe UI, sans-serif" fill="white" text-anchor="middle">ChatMitra</text>
+</svg>
