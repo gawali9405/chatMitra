@@ -1,9 +1,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import "./Register.css";
-import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState<string>("");
@@ -11,22 +9,39 @@ const Register = () => {
   const [password, setPassword] = useState<string>("");
   const [mobile, setMobile] = useState<string>("");
 
-  const navigate = useNavigate()
+  const [error, setError] = useState<string>("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    console.log("Registering with:", { name, email, password, mobile });
-    navigate("/login")
+    // Optional: Check if user already exists
+    const existingUser = JSON.parse(localStorage.getItem("user") || "null");
+    if (existingUser && existingUser.email === email) {
+      setError("This email is already registered.");
+      return;
+    }
+
+    // Save user to localStorage
+    const user = { name, email, password, mobile };
+    localStorage.setItem("user", JSON.stringify(user));
+
+    console.log("Registered:", user);
+
+    // Navigate and reset
+    navigate("/login");
     setName("");
     setEmail("");
     setPassword("");
     setMobile("");
+    setError("");
   };
 
   return (
     <div className="register-container">
       <h2>Register</h2>
+
       <form onSubmit={handleSubmit} className="register-form">
         <div className="form-group">
           <label htmlFor="name">Full Name:</label>
@@ -58,7 +73,6 @@ const Register = () => {
             value={mobile}
             onChange={(e) => {
               const value = e.target.value;
-              // Only allow digits, up to 10 characters
               if (/^\d{0,10}$/.test(value)) {
                 setMobile(value);
               }
@@ -79,6 +93,8 @@ const Register = () => {
             required
           />
         </div>
+
+        {error && <div className="error">{error}</div>}
 
         <button type="submit" className="register-button">
           Register

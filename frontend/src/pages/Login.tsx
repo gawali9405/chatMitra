@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
   const [emailError, setEmailError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
   const [loginError, setLoginError] = useState<string>("");
@@ -19,20 +20,17 @@ const Login = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    let isValid = true;
-
-    // Reset errors
     setEmailError("");
     setPasswordError("");
     setLoginError("");
 
-    // Email validation
+    let isValid = true;
+
     if (!validateEmail(email)) {
       setEmailError("Please enter a valid email address.");
       isValid = false;
     }
 
-    // Password validation
     if (!password) {
       setPasswordError("Password is required.");
       isValid = false;
@@ -40,20 +38,28 @@ const Login = () => {
 
     if (!isValid) return;
 
-    // Simulate login success/failure
-    if (email === "gawali@gmail.com" && password === "pass123") {
-      navigate("/");
-      setEmail("");
-      setPassword("");
-      alert("Login successful:");
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      const { email: storedEmail, password: storedPassword } =
+        JSON.parse(storedUser);
+
+      if (email === storedEmail && password === storedPassword) {
+        console.log("✅ Login successful");
+        localStorage.setItem("isLoggedIn", "true"); // Optional: mark login status
+        navigate("/"); // Redirect to homepage or dashboard
+      } else {
+        setLoginError("Invalid email or password.");
+      }
     } else {
-      setLoginError("Invalid email or password.");
+      setLoginError("No registered user found. Please register first.");
     }
   };
 
   return (
     <div className="login-container">
       <h2>Login</h2>
+
       <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">
           <label htmlFor="email">Email:</label>
