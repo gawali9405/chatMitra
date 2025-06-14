@@ -65,36 +65,36 @@ app.post("/api/login", async (req, res) => {
 });
 
 // POST /api/posts/:postId/comments
-// app.post("/api/posts/:postId/comments", async (req, res) => {
-//   const { postId } = req.params;
-//   const { content } = req.body;
+app.post("/api/posts/:postId/comments", async (req, res) => {
+  const { postId } = req.params;
+  const { content } = req.body;
 
-//   try {
-//     const result = await pool.query(
-//       "INSERT INTO comments (post_id, content) VALUES ($1, $2) RETURNING *",
-//       [postId, content]
-//     );
-//     res.status(201).json({ message: "Comment added", comment: result.rows[0] });
-//   } catch (error) {
-//     console.error("Comment insert error:", error);
-//     res.status(500).json({ error: "Failed to add comment" });
-//   }
-// });
+  try {
+    const result = await pool.query(
+      "INSERT INTO comments (post_id, content) VALUES ($1, $2) RETURNING *",
+      [postId, content]
+    );
+    res.status(201).json({ message: "Comment added", comment: result.rows[0] });
+  } catch (error) {
+    console.error("Comment insert error:", error);
+    res.status(500).json({ error: "Failed to add comment" });
+  }
+});
 
-// app.get("/api/posts/:postId/comments", async (req, res) => {
-//   const { postId } = req.params;
+app.get("/api/posts/:postId/comments", async (req, res) => {
+  const { postId } = req.params;
 
-//   try {
-//     const result = await pool.query(
-//       "SELECT * FROM comments WHERE post_id = $1 ORDER BY created_at DESC",
-//       [postId]
-//     );
-//     res.json(result.rows);
-//   } catch (error) {
-//     console.error("Error fetching comments:", error);
-//     res.status(500).json({ error: "Failed to fetch comments" });
-//   }
-// });
+  try {
+    const result = await pool.query(
+      "SELECT * FROM comments WHERE post_id = $1 ORDER BY created_at DESC",
+      [postId]
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    res.status(500).json({ error: "Failed to fetch comments" });
+  }
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
