@@ -2,27 +2,55 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import "./Register.css";
 import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [mobile, setMobile] = useState<string>("");
 
   const [error, setError] = useState<string>("");
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    alert("Registeration Successful");
-    // Navigate and reset
-    navigate("/");
-    setName("");
-    setEmail("");
-    setPassword("");
-    setMobile("");
-    setError("");
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/register", {
+        name,
+        email,
+        password,
+        mobile, 
+      });
+      console.log("user register data", response);
+
+      alert("Registration successful");
+      navigate("/");
+
+      // Clear form
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setMobile("");
+      setError("");
+    } catch (error: any) {
+      console.error("Registration failed:", error);
+
+      if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("An unexpected error occurred.");
+      }
+    }
   };
 
   return (
@@ -77,6 +105,16 @@ const Register = () => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Confirm Password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </div>
