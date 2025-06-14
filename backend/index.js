@@ -14,26 +14,26 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 // app.use("/api/posts", router);
 
 // Register Route
-// app.post("/api/register", async (req, res) => {
-//   const { name, email, password, mobile } = req.body;
+app.post("/api/register", async (req, res) => {
+  const { name, email, password, mobile } = req.body;
 
-//   try {
-//     const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-//     const result = await pool.query(
-//       "INSERT INTO users (name, email, password, mobile) VALUES ($1, $2, $3, $4) RETURNING *",
-//       [name, email, hashedPassword, mobile]
-//     );
+    const result = await pool.query(
+      "INSERT INTO users (name, email, password, mobile) VALUES ($1, $2, $3, $4) RETURNING *",
+      [name, email, hashedPassword, mobile]
+    );
 
-//     res.status(201).json({
-//       message: "User registered successfully",
-//       user: result.rows[0],
-//     });
-//   } catch (error) {
-//     console.error("Error during registration:", error.message);
-//     res.status(500).json({ error: "Registration failed" });
-//   }
-// });
+    res.status(201).json({
+      message: "User registered successfully",
+      user: result.rows[0],
+    });
+  } catch (error) {
+    console.error("Error during registration:", error.message);
+    res.status(500).json({ error: "Registration failed" });
+  }
+});
 
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
